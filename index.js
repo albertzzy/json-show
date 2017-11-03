@@ -1,20 +1,26 @@
-let resStr = '<ul>';
-
 export default function parseJson(json){
-    Object.keys(json).forEach( k => {
-        let val = json[k];
-    
-        if(typeof val === 'object'){
-            resStr += '<li>'+k+'<ul>';
-            parseJson(json[k]);
-            resStr += '</li>';
-        }else{
-            resStr += '<li>'+k+':'+val.toString()+'</li>';
-        }
 
-    })
+    let resStr = '<ul>';
 
-    resStr += '</ul>';
+    function doParse(json){
+        Object.keys(json).forEach( k => {
+            let val = json[k];
+        
+            if(typeof val === 'object'){
+                resStr += '<li>'+k+'<ul>';
+                doParse(json[k]);
+                resStr += '</li>';
+            }else{
+                resStr += '<li>'+k+':'+val.toString()+'</li>';
+            }
 
-    return resStr;
-}
+        })
+
+        resStr += '</ul>';
+
+        return resStr;
+    }
+
+    return doParse(json);
+
+}   
